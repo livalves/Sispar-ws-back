@@ -7,4 +7,4 @@
 
 # db.session.bulk_save_objects(Lista dos json)
 
-# id = 298
+# id = 298  - ID_COLABORADOR 

@@ -3,7 +3,6 @@ from sqlalchemy.schema import Column
 from sqlalchemy.types import String, DECIMAL, Integer 
 
 class Colaborador(db.Model):
-    #__tablename__ = 'tb_colaborador'
     
     id = Column(Integer, primary_key=True, autoincrement=True)
     nome = Column(String(100))
@@ -31,5 +30,5 @@ class Colaborador(db.Model):
             'nome': self.nome,
             'cargo': self.cargo,
             'salario': self.salario,
-            #'email': self.email
+            'email': self.email
         }

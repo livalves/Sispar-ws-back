@@ -36,3 +36,5 @@ responses:
     description: Colaborador cadastrado com sucesso.
   400:
     description: Erro nos dados enviados. Ocorreu um erro ao cadastrar o colaborador.
+  401:
+    description: Não autorizado. O usuário não tem permissão para cadastrar um colaborador.
