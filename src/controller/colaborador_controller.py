@@ -3,6 +3,8 @@ from src.model.colaborador_model import Colaborador
 from src.model import db
 from src.security.security import hash_senha, checar_senha
 from flasgger import swag_from
+from flask_jwt_extended import create_access_token
+from datetime import timedelta
 
 bp_colaborador = Blueprint('colaborador', __name__, url_prefix='/colaborador')
 
@@ -75,6 +77,7 @@ def login():
     colaborador = colaborador.to_dict()
     
     if colaborador.get('email') == email and checar_senha(senha, colaborador.get('senha')):
+        token = create_access_token(identity=colaborador.id, expires_delta=timedelta(hours=8))
         return jsonify({'mensagem': 'Login realizado com sucesso'}), 200
     else:
         return jsonify({'mensagem': 'Credenciais invalidas'}), 400

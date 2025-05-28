@@ -5,6 +5,7 @@ from src.model import db
 from config import Config
 from flask_cors import CORS
 from flasgger import Swagger
+from flask_jwt_extended import JWTManager
 
 swagger_config = {
     "headers": [],
@@ -21,6 +22,8 @@ swagger_config = {
     "specs_route": "/apidocs/", # <-- Rota para acessar a documentação
 }
 
+jwt = JWTManager()
+
 def create_app():
     app = Flask(__name__) 
     
@@ -29,6 +32,7 @@ def create_app():
     CORS(app, origins="*")  # Provisorio
        
     db.init_app(app) 
+    jwt.init_app(app)
     
     app.register_blueprint(bp_colaborador)
     app.register_blueprint(bp_reembolso)
