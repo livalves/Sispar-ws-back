@@ -66,7 +66,6 @@ def login():
     if not email or not senha:
         return jsonify({'mensagem': 'Todos os dados precisam ser preenchidos!'}), 400
     
-    # SELECT * FROM [TABELA]
     colaborador = db.session.execute(
         db.select(Colaborador).where(Colaborador.email == email)
     ).scalar() 
@@ -77,7 +76,7 @@ def login():
     colaborador = colaborador.to_dict()
     
     if colaborador.get('email') == email and checar_senha(senha, colaborador.get('senha')):
-        token = create_access_token(identity=colaborador.id, expires_delta=timedelta(hours=8))
-        return jsonify({'mensagem': 'Login realizado com sucesso'}), 200
+        token = create_access_token(identity=str(colaborador['id']), expires_delta=timedelta(hours=8))
+        return jsonify({'mensagem': 'Login realizado com sucesso', 'token': token}), 200
     else:
         return jsonify({'mensagem': 'Credenciais invalidas'}), 400

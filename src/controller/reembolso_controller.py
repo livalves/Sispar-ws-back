@@ -17,13 +17,10 @@ bp_reembolso = Blueprint('reembolso', __name__, url_prefix='/reembolsos')
 @bp_reembolso.route('/envio-para-analise', methods=['POST'])
 @jwt_required()
 def cadastrar_novo_reembolso():
-    
-    #try:
-    #    data_date = datetime.strptime(data['data'], '%Y-%m-%d').date()
-    #except Exception as e:
-    #    return jsonify({'mensagem': 'Formato de data inválido'}), 400
-    
+    print("Endpoint chamado")
+
     data = request.get_json()
+    print("Conteúdo recebido:", data)
     
     if not isinstance(data, list):
         return jsonify({'mensagem': 'Esperado uma lista de reembolsos'}), 400
@@ -33,21 +30,26 @@ def cadastrar_novo_reembolso():
                        'pep', 'moeda', 'distancia_km', 'valor_km', 'valor_faturado', 'despesa']
     
     id_colaborador = get_jwt_identity()
-
     
     lista_reembolsos = []
     
     for item in data:
         for field in required_fields:
-            if field not in item:
+            #if field not in item:
+            if field not in item or item[field] in [None, '', ' ']:
                 return jsonify({'mensagem': f'Campo obrigatório ausente: {field}'}), 400
+            
+        try:
+            data_formatada = datetime.strptime(item['data'], '%Y-%m-%d').date()
+        except ValueError:
+            return jsonify({'mensagem': f'Data inválida: {item["data"]}'}), 400
 
         reembolso = Reembolso(
             colaborador=item['colaborador'],
             empresa=item['empresa'],
             num_prestacao=item['num_prestacao'],
             descricao=item['descricao'],
-            data=item['data'],
+            data=data_formatada,
             tipo_reembolso=item['tipo_reembolso'],
             centro_custo=item['centro_custo'],
             ordem_interna=item['ordem_interna'],
@@ -61,9 +63,11 @@ def cadastrar_novo_reembolso():
             id_colaborador=id_colaborador,
             status='Em analise'
         )
+        
         lista_reembolsos.append(reembolso)
+        print(reembolso.__dict__)
 
-    db.session.add(lista_reembolsos)
+    db.session.bulk_save_objects(lista_reembolsos)
     db.session.commit()
     
     return jsonify( {'mensagem': 'Dado cadastrado com sucesso'} ), 201
@@ -83,7 +87,7 @@ def listar_reembolsos():
 
 @bp_reembolso.route('/solicitacao/<int:id>', methods=['GET'])
 @jwt_required()
-def visualizar_reembolso_nprestacao(id):
+def visualizar_reembolso_por_id(id):
     id_colaborador = get_jwt_identity()
     reembolso = Reembolso.query.filter_by(id=id, id_colaborador=id_colaborador).first()
     

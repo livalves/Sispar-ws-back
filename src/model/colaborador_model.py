@@ -20,6 +20,7 @@ class Colaborador(db.Model):
         
     def to_dict(self) -> dict:
         return {
+            'id': self.id,
             'email': self.email,
             'senha': self.senha
         }
