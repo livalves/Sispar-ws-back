@@ -80,18 +80,18 @@ def listar_reembolsos():
     reembolsos = Reembolso.query.filter_by(id_colaborador=id_colaborador).all()
 
     if not reembolsos:
-        return jsonify({'mensagem': 'Nenhum reembolso encontrado'}), 404
+        return jsonify([]), 200
 
     return jsonify([r.all_data() for r in reembolsos]), 200
 
 
-@bp_reembolso.route('/solicitacao/<int:id>', methods=['GET'])
+@bp_reembolso.route('/solicitacao/<int:num_prestacao>', methods=['GET'])
 @jwt_required()
-def visualizar_reembolso_por_id(id):
+def visualizar_reembolsos_por_num_prestacao(num_prestacao):
     id_colaborador = get_jwt_identity()
-    reembolso = Reembolso.query.filter_by(id=id, id_colaborador=id_colaborador).first()
+    reembolsos = Reembolso.query.filter_by(num_prestacao=num_prestacao, id_colaborador=id_colaborador).all()
     
-    if not reembolso:
-        return jsonify({'mensagem': 'Reembolso não encontrado'}), 404
+    if not reembolsos:
+        return jsonify([]), 200
     
-    return jsonify(reembolso.all_dict()), 200
+    return jsonify([r.all_data() for r in reembolsos]), 200
