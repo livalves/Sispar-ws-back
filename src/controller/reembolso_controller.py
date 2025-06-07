@@ -1,10 +1,3 @@
-#2 rotas 
-#visualização de todos os reembolsos
-#id_colaborador = padrão de id do colaborador  GET
-# solicitação do reembolso  POST
-# db.session.bulk_save_objects(Lista dos json)
-# id = 298  - ID_COLABORADOR 
-
 from flask import Blueprint, request, jsonify
 from src.model import db
 from src.model.reembolso_model import Reembolso
@@ -16,6 +9,7 @@ bp_reembolso = Blueprint('reembolso', __name__, url_prefix='/reembolsos')
 
 @bp_reembolso.route('/envio-para-analise', methods=['POST'])
 @jwt_required()
+@swag_from('../docs/reembolso/cadastrar_reembolsos.yml')
 def cadastrar_novo_reembolso():
     print("Endpoint chamado")
 
@@ -35,7 +29,6 @@ def cadastrar_novo_reembolso():
     
     for item in data:
         for field in required_fields:
-            #if field not in item:
             if field not in item or item[field] in [None, '', ' ']:
                 return jsonify({'mensagem': f'Campo obrigatório ausente: {field}'}), 400
             
@@ -75,6 +68,7 @@ def cadastrar_novo_reembolso():
 
 @bp_reembolso.route('/solicitacao/todos', methods=['GET'])
 @jwt_required()
+@swag_from('../docs/reembolso/listar_reembolsos.yml')
 def listar_reembolsos():
     id_colaborador = get_jwt_identity()
     reembolsos = Reembolso.query.filter_by(id_colaborador=id_colaborador).all()
@@ -87,6 +81,7 @@ def listar_reembolsos():
 
 @bp_reembolso.route('/solicitacao/<int:num_prestacao>', methods=['GET'])
 @jwt_required()
+@swag_from('../docs/reembolso/visualizar_reembolso.yml')
 def visualizar_reembolsos_por_num_prestacao(num_prestacao):
     id_colaborador = get_jwt_identity()
     reembolsos = Reembolso.query.filter_by(num_prestacao=num_prestacao, id_colaborador=id_colaborador).all()

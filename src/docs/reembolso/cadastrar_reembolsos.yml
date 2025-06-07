@@ -1,0 +1,84 @@
+post:
+  tags:
+    - Reembolso
+  description: Envia uma lista de reembolsos para análise. Requer autenticação com token JWT.
+  security:
+    - Bearer: []
+  consumes:
+    - application/json
+  parameters:
+    - in: body
+      name: body
+      required: true
+      schema:
+        type: array
+        items:
+          type: object
+          required:
+            - colaborador
+            - empresa
+            - num_prestacao
+            - descricao
+            - data
+            - tipo_reembolso
+            - centro_custo
+            - ordem_interna
+            - divisao
+            - pep
+            - moeda
+            - distancia_km
+            - valor_km
+            - valor_faturado
+            - despesa
+          properties:
+            colaborador:
+              type: string
+              example: João da Silva
+            empresa:
+              type: string
+              example: Wilson Sons
+            num_prestacao:
+              type: integer
+              example: 202301
+            descricao:
+              type: string
+              example: Viagem a trabalho
+            data:
+              type: string
+              format: date
+              example: 2024-06-01
+            tipo_reembolso:
+              type: string
+              example: Transporte
+            centro_custo:
+              type: string
+              example: CC123
+            ordem_interna:
+              type: integer
+              example: 987
+            divisao:
+              type: integer
+              example: 45
+            pep:
+              type: integer
+              example: 654
+            moeda:
+              type: string
+              example: BRL
+            distancia_km:
+              type: number
+              example: 25.0
+            valor_km:
+              type: number
+              example: 1.20
+            valor_faturado:
+              type: number
+              example: 30.00
+            despesa:
+              type: string
+              example: Táxi aeroporto
+  responses:
+    201:
+      description: Reembolsos cadastrados com sucesso
+    400:
+      description: Dados inválidos ou incompletos

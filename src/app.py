@@ -22,6 +22,25 @@ swagger_config = {
     "specs_route": "/apidocs/", # <-- Rota para acessar a documentação
 }
 
+swagger_template = {
+    "swagger": "2.0",
+    "info": {
+        "title": "API Sispar",
+        "description": "Documentação da API de colaboradores e reembolsos",
+        "version": "1.0.0"
+    },
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header",
+            "description": "Adicione 'Bearer <seu_token_jwt>'"
+        }
+    },
+    "security": [{"Bearer": []}]
+}
+
+
 jwt = JWTManager()
 
 def create_app():
@@ -30,7 +49,6 @@ def create_app():
     app.config.from_object(Config)
     
     CORS(app, origins="*")  # Provisorio
-    #CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
        
     db.init_app(app) 
     jwt.init_app(app)
@@ -41,6 +59,7 @@ def create_app():
     with app.app_context(): 
         db.create_all()
     
-    Swagger(app, config=swagger_config)
+    #Swagger(app, config=swagger_config)
+    Swagger(app, config=swagger_config, template=swagger_template)
     
     return app    

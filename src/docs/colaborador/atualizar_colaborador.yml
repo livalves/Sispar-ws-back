@@ -1,0 +1,32 @@
+put:
+  tags:
+    - Colaborador
+  description: Atualiza informações de um colaborador existente pelo ID.
+  parameters:
+    - in: path
+      name: id_colaborador
+      required: true
+      type: integer
+      description: ID do colaborador a ser atualizado
+    - in: body
+      name: corpo
+      required: true
+      schema:
+        type: object
+        properties:
+          nome:
+            type: string
+            example: João Silva
+          cargo:
+            type: string
+            example: Analista
+          cracha:
+            type: string
+            example: "12345"
+  responses:
+    200:
+      description: Dados do colaborador atualizados com sucesso.
+    400:
+      description: Requisição inválida.
+    404:
+      description: Colaborador não encontrado.

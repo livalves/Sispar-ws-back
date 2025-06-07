@@ -1,0 +1,27 @@
+get:
+  tags:
+  - Colaborador
+description: Retorna uma lista com os dados de todos os colaboradores cadastrados.
+responses:
+  200:
+    description: Lista de colaboradores retornada com sucesso
+    schema:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            example: 1
+          nome:
+            type: string
+            example: "Maria Oliveira"
+          email:
+            type: string
+            example: "maria.oliveira@email.com"
+          cargo:
+            type: string
+            example: "Analista de Dados"
+          salario:
+            type: number
+            example: 4500.00

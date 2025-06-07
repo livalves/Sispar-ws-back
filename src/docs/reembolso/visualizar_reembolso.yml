@@ -1,0 +1,17 @@
+get:
+  tags:
+    - Reembolso
+  description: Visualiza reembolsos por número de prestação de contas
+  security:
+    - Bearer: []
+  parameters:
+    - name: num_prestacao
+      in: path
+      required: true
+      description: Número da prestação de contas
+      schema:
+        type: integer
+        example: 202301
+  responses:
+    200:
+      description: Lista de reembolsos vinculados ao número informado

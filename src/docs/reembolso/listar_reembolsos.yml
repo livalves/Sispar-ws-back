@@ -1,0 +1,74 @@
+get:
+  tags:
+    - Reembolso
+  description: Retorna todos os reembolsos cadastrados pelo usuário autenticado via token JWT.
+  security:
+    - Bearer: []
+  responses:
+    200:
+      description: Lista de reembolsos retornada com sucesso
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 1
+                colaborador:
+                  type: string
+                  example: João da Silva
+                empresa:
+                  type: string
+                  example: Wilson Sons
+                num_prestacao:
+                  type: integer
+                  example: 202301
+                descricao:
+                  type: string
+                  example: Viagem a trabalho
+                data:
+                  type: string
+                  format: date
+                  example: 2024-06-01
+                tipo_reembolso:
+                  type: string
+                  example: Transporte
+                centro_custo:
+                  type: string
+                  example: CC123
+                ordem_interna:
+                  type: string
+                  example: OI987
+                divisao:
+                  type: string
+                  example: Financeiro
+                pep:
+                  type: string
+                  example: PEP456
+                moeda:
+                  type: string
+                  example: BRL
+                distancia_km:
+                  type: number
+                  format: float
+                  example: 25.0
+                valor_km:
+                  type: number
+                  format: float
+                  example: 1.20
+                valor_faturado:
+                  type: number
+                  format: float
+                  example: 30.00
+                despesa:
+                  type: string
+                  example: Táxi aeroporto
+                id_colaborador:
+                  type: integer
+                  example: 10
+                status:
+                  type: string
+                  example: Em análise

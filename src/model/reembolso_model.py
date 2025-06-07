@@ -1,7 +1,7 @@
 from src.model import db
 from sqlalchemy.schema import Column, ForeignKey
 from sqlalchemy.types import Integer, String, DECIMAL, Date
-from sqlalchemy import func, text
+from sqlalchemy import text
 
 class Reembolso(db.Model):
 
